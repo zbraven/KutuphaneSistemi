@@ -16,7 +16,7 @@ namespace ZeroToHeroZBS.Controllers
         {
             List<KitapTuru> objKitapTuruList = _uygulamaDbContext.KitapTurleri.ToList();
 
-            return View();
+            return View(objKitapTuruList);
         }
     }
 }
