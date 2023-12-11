@@ -18,5 +18,13 @@ namespace ZeroToHeroZBS.Controllers
 
             return View(objKitapTuruList);
         }
+
+
+        public IActionResult Ekle()
+        {
+
+
+           return View();
+        }
     }
 }
