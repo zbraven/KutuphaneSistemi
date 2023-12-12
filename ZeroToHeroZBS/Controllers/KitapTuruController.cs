@@ -43,13 +43,13 @@ namespace ZeroToHeroZBS.Controllers
 
         public IActionResult Guncelle(int? id)
         {
-            if (id==null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
 
             }
-            KitapTuru? kitapTuruVt= _uygulamaDbContext.KitapTurleri.Find(id);
-            if (kitapTuruVt==null)
+            KitapTuru? kitapTuruVt = _uygulamaDbContext.KitapTurleri.Find(id);
+            if (kitapTuruVt == null)
             {
                 return NotFound();
             }
@@ -68,5 +68,36 @@ namespace ZeroToHeroZBS.Controllers
             }
             return View();
         }
+
+
+        public IActionResult Sil(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+
+            }
+            KitapTuru? kitapTuruVt = _uygulamaDbContext.KitapTurleri.Find(id);
+            if (kitapTuruVt == null)
+            {
+                return NotFound();
+            }
+            return View(kitapTuruVt);
+        }
+
+        [HttpPost, ActionName("Sil")]
+        public IActionResult SilPOST(int? id)
+        {
+            KitapTuru? kitapTuru = _uygulamaDbContext.KitapTurleri.Find(id);
+            if (kitapTuru == null)
+            {
+                return NotFound();
+            }
+            _uygulamaDbContext.KitapTurleri.Remove(kitapTuru);
+            _uygulamaDbContext.SaveChanges();
+            return RedirectToAction("Index", "KitapTuru");
+
+        }
+
     }
 }
