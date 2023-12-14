@@ -6,15 +6,15 @@ namespace ZeroToHeroZBS.Controllers
 {
     public class KitapTuruController : Controller
     {
-        private readonly UygulamaDbContext _uygulamaDbContext;
-        public KitapTuruController(UygulamaDbContext context)
+        private readonly IKitapTuruRepository _kitapTuruRepository;
+        public KitapTuruController(IKitapTuruRepository context)
         {
-            _uygulamaDbContext = context;
+            _kitapTuruRepository = context;
         }
 
         public IActionResult Index()
         {
-            List<KitapTuru> objKitapTuruList = _uygulamaDbContext.KitapTurleri.ToList();
+            List<KitapTuru> objKitapTuruList =_kitapTuruRepository.GetAll().ToList();
 
             return View(objKitapTuruList);
         }
@@ -29,8 +29,9 @@ namespace ZeroToHeroZBS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _uygulamaDbContext.KitapTurleri.Add(kitapTuru);
-                _uygulamaDbContext.SaveChanges();
+                _kitapTuruRepository.Ekle(kitapTuru);
+                _kitapTuruRepository.Kaydet();
+                TempData["basarili"] = "Yeni Kitap Türü Başarıyla Oluşturuldu.";
                 return RedirectToAction("Index", "KitapTuru");
 
             }
@@ -48,7 +49,7 @@ namespace ZeroToHeroZBS.Controllers
                 return NotFound();
 
             }
-            KitapTuru? kitapTuruVt = _uygulamaDbContext.KitapTurleri.Find(id);
+            KitapTuru? kitapTuruVt = _kitapTuruRepository.Get(u=>u.Id == id);
             if (kitapTuruVt == null)
             {
                 return NotFound();
@@ -61,8 +62,9 @@ namespace ZeroToHeroZBS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _uygulamaDbContext.KitapTurleri.Update(kitapTuru);
-                _uygulamaDbContext.SaveChanges();
+                _kitapTuruRepository.Guncelle(kitapTuru);
+                _kitapTuruRepository.Kaydet();
+                TempData["basarili"] = "Yeni Kitap Türü Başarıyla Güncellendi.";
                 return RedirectToAction("Index", "KitapTuru");
 
             }
@@ -77,7 +79,7 @@ namespace ZeroToHeroZBS.Controllers
                 return NotFound();
 
             }
-            KitapTuru? kitapTuruVt = _uygulamaDbContext.KitapTurleri.Find(id);
+            KitapTuru? kitapTuruVt = _kitapTuruRepository.Get(u=> u.Id == id);  
             if (kitapTuruVt == null)
             {
                 return NotFound();
@@ -88,13 +90,14 @@ namespace ZeroToHeroZBS.Controllers
         [HttpPost, ActionName("Sil")]
         public IActionResult SilPOST(int? id)
         {
-            KitapTuru? kitapTuru = _uygulamaDbContext.KitapTurleri.Find(id);
+            KitapTuru? kitapTuru = _kitapTuruRepository.Get(u => u.Id == id);
             if (kitapTuru == null)
             {
                 return NotFound();
             }
-            _uygulamaDbContext.KitapTurleri.Remove(kitapTuru);
-            _uygulamaDbContext.SaveChanges();
+            _kitapTuruRepository.Sil(kitapTuru);
+            _kitapTuruRepository.Kaydet();
+            TempData["basarili"] = "Kayıt Silme İşlemi Başarılı.";
             return RedirectToAction("Index", "KitapTuru");
 
         }

@@ -1,5 +1,10 @@
 ﻿@model List<KitapTuru>
 
+@if (TempData["basarili"] != null)
+{
+    <h3 style="color:forestgreen">@TempData["basarili"]</h3>
+}
+
 <div class="container">
     <div class="row pt-3 pb-4">
         <h1>Kitap Türleri</h1>
