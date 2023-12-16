@@ -17,6 +17,7 @@
                 <th>Tanim</th>
                 <th>Yazar</th>
                 <th>Fiyat</th>
+                <th>KitapTuru</th>
                 <th style="width:250px"></th>
                 <th style="width:250px"></th>
             </tr>
@@ -31,7 +32,8 @@
                     <td>@kitap.Tanim</td>
                     <td>@kitap.Yazar</td>
                     <td>@kitap.Fiyat</td>
-                    <td><a asp-controller="Kitap" asp-action="Guncelle" asp-route-id="@kitap.Id" type="button" class="btn btn-success" style="width:200px">Güncelle</a> </td>
+                    <td>@kitap.KitapTuruId</td>
+                    <td><a asp-controller="Kitap" asp-action="EkleGuncelle" asp-route-id="@kitap.Id" type="button" class="btn btn-success" style="width:200px">Güncelle</a> </td>
                     <td><a asp-controller="Kitap" asp-action="Sil" asp-route-id="@kitap.Id" type="button" class="btn btn-danger" style="width:200px">Sil</a> </td>
                 </tr>
             }
@@ -40,7 +42,7 @@
     </table>
     <div class="row pt-3 pb-2">
         <div>
-            <a asp-controller="Kitap" asp-action="Ekle" class="btn btn-lg btn-primary" type="button">Yeni Kitap Ekle</a>
+            <a asp-controller="Kitap" asp-action="EkleGuncelle" class="btn btn-lg btn-primary" type="button">Yeni Kitap Ekle</a>
         </div>
     </div>
 

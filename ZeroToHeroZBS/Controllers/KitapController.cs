@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ZeroToHeroZBS.Models;
 using ZeroToHeroZBS.Utility;
 
@@ -7,25 +8,51 @@ namespace ZeroToHeroZBS.Controllers
     public class KitapController : Controller
     {
         private readonly IKitapRepository _kitapRepository;
-        public KitapController(IKitapRepository context)
+        private readonly IKitapTuruRepository _kitapTuruRepository;
+
+        public KitapController(IKitapRepository kitapRepository, IKitapTuruRepository kitapTuruRepository)
         {
-            _kitapRepository = context;
+            _kitapRepository = kitapRepository;
+            _kitapTuruRepository = kitapTuruRepository;
         }
 
         public IActionResult Index()
         {
             List<Kitap> objKitapList = _kitapRepository.GetAll().ToList();
-
             return View(objKitapList);
         }
 
-        public IActionResult Ekle()
+        public IActionResult EkleGuncelle(int? id)
         {
-            return View();
+            IEnumerable<SelectListItem> KitapTuruList = _kitapTuruRepository.GetAll()
+                       .Select(k => new SelectListItem
+                       {
+                           Text = k.Ad,
+                           Value = k.Id.ToString(),
+                       }
+                       );
+            ViewBag.KitapTuruList = KitapTuruList;
+
+
+            if (id == null || id == 0)
+            {
+                //ekleme
+                return View();
+            }
+            else
+            {
+                //güncelleme
+                Kitap? kitapVt = _kitapRepository.Get(u => u.Id == id);
+                if (kitapVt == null)
+                {
+                    return NotFound();
+                }
+                return View(kitapVt);
+            }
         }
 
         [HttpPost]
-        public IActionResult Ekle(Kitap kitap)
+        public IActionResult EkleGuncelle(Kitap kitap,IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -42,35 +69,36 @@ namespace ZeroToHeroZBS.Controllers
 
 
 
-        public IActionResult Guncelle(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
+        /* 
+         public IActionResult Guncelle(int? id)
+         {
+             if (id == null || id == 0)
+             {
+                 return NotFound();
 
-            }
-            Kitap? kitapVt = _kitapRepository.Get(u=>u.Id == id);
-            if (kitapVt == null)
-            {
-                return NotFound();
-            }
-            return View(kitapVt);
-        }
+             }
+             Kitap? kitapVt = _kitapRepository.Get(u => u.Id == id);
+             if (kitapVt == null)
+             {
+                 return NotFound();
+             }
+             return View(kitapVt);
+         }
 
-        [HttpPost]
-        public IActionResult Guncelle(Kitap kitap)
-        {
-            if (ModelState.IsValid)
-            {
-                _kitapRepository.Guncelle(kitap);
-                _kitapRepository.Kaydet();
-                TempData["basarili"] = "Yeni Kitap Başarıyla Güncellendi.";
-                return RedirectToAction("Index", "Kitap");
+         [HttpPost]
+         public IActionResult Guncelle(Kitap kitap)
+         {
+             if (ModelState.IsValid)
+             {
+                 _kitapRepository.Guncelle(kitap);
+                 _kitapRepository.Kaydet();
+                 TempData["basarili"] = "Yeni Kitap Başarıyla Güncellendi.";
+                 return RedirectToAction("Index", "Kitap");
 
-            }
-            return View();
-        }
-
+             }
+             return View();
+         }
+        */
 
         public IActionResult Sil(int? id)
         {
@@ -79,7 +107,7 @@ namespace ZeroToHeroZBS.Controllers
                 return NotFound();
 
             }
-            Kitap? kitapVt = _kitapRepository.Get(u=> u.Id == id);  
+            Kitap? kitapVt = _kitapRepository.Get(u => u.Id == id);
             if (kitapVt == null)
             {
                 return NotFound();

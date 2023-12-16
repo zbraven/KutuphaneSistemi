@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZeroToHeroZBS.Models
 {
@@ -18,5 +19,12 @@ namespace ZeroToHeroZBS.Models
         [Required]
         [Range(10,5000)]
         public double Fiyat { get; set; }
+
+        public int KitapTuruId { get; set; }
+        [ForeignKey("KitapTuruId")]
+
+        public KitapTuru KitapTuru { get; set;}
+
+        public string ResimUrl { get; set; }    
     }
 }

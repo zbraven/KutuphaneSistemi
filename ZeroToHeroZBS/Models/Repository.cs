@@ -24,7 +24,6 @@ namespace ZeroToHeroZBS.Models
             IQueryable<T> sorgu = dbSet;
             sorgu=sorgu.Where(filter);
             return sorgu.FirstOrDefault();
-            
         }
 
         public IEnumerable<T> GetAll()
