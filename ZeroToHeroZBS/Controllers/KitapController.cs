@@ -61,13 +61,17 @@ namespace ZeroToHeroZBS.Controllers
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 string kitapPath = Path.Combine(wwwRootPath, @"img");
 
-                using (var fileStream = new FileStream(Path.Combine(kitapPath, file.FileName), FileMode.Create))
+                if (file != null)
                 {
-                    file.CopyTo(fileStream);
+                    using (var fileStream = new FileStream(Path.Combine(kitapPath, file.FileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    kitap.ResimUrl = @"\img\" + file.FileName;
                 }
-                kitap.ResimUrl = @"\img\" + file.FileName;
 
-                if (kitap.Id==0)
+
+                if (kitap.Id == 0)
                 {
                     _kitapRepository.Ekle(kitap);
                     TempData["basarili"] = "Yeni Kitap Başarıyla Oluşturuldu.";
@@ -79,7 +83,6 @@ namespace ZeroToHeroZBS.Controllers
                 }
 
                 _kitapRepository.Kaydet();
-                TempData["basarili"] = "Yeni Kitap Başarıyla Oluşturuldu.";
                 return RedirectToAction("Index", "Kitap");
 
             }
