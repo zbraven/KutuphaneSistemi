@@ -9,7 +9,7 @@ namespace ZeroToHeroZBS.Controllers
     {
         private readonly IKitapRepository _kitapRepository;
         private readonly IKitapTuruRepository _kitapTuruRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;   
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public KitapController(IKitapRepository kitapRepository, IKitapTuruRepository kitapTuruRepository, IWebHostEnvironment webHostEnvironment)
         {
@@ -54,20 +54,30 @@ namespace ZeroToHeroZBS.Controllers
         }
 
         [HttpPost]
-        public IActionResult EkleGuncelle(Kitap kitap,IFormFile? file)
+        public IActionResult EkleGuncelle(Kitap kitap, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string kitapPath= Path.Combine(wwwRootPath, @"img");
+                string kitapPath = Path.Combine(wwwRootPath, @"img");
 
                 using (var fileStream = new FileStream(Path.Combine(kitapPath, file.FileName), FileMode.Create))
                 {
                     file.CopyTo(fileStream);
                 }
-            kitap.ResimUrl = @"\img\" + file.FileName;
+                kitap.ResimUrl = @"\img\" + file.FileName;
 
-                _kitapRepository.Ekle(kitap);
+                if (kitap.Id==0)
+                {
+                    _kitapRepository.Ekle(kitap);
+                    TempData["basarili"] = "Yeni Kitap Başarıyla Oluşturuldu.";
+                }
+                else
+                {
+                    _kitapRepository.Guncelle(kitap);
+                    TempData["basarili"] = "Kitap Güncelleme Başarılı.";
+                }
+
                 _kitapRepository.Kaydet();
                 TempData["basarili"] = "Yeni Kitap Başarıyla Oluşturuldu.";
                 return RedirectToAction("Index", "Kitap");
