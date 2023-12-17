@@ -32,7 +32,7 @@
                     <td>@kitap.Tanim</td>
                     <td>@kitap.Yazar</td>
                     <td>@kitap.Fiyat</td>
-                    <td>@kitap.KitapTuruId</td>
+                    <td>@kitap.KitapTuru.Ad</td>
                     <td><a asp-controller="Kitap" asp-action="EkleGuncelle" asp-route-id="@kitap.Id" type="button" class="btn btn-success" style="width:200px">Güncelle</a> </td>
                     <td><a asp-controller="Kitap" asp-action="Sil" asp-route-id="@kitap.Id" type="button" class="btn btn-danger" style="width:200px">Sil</a> </td>
                 </tr>
