@@ -9,11 +9,13 @@ namespace ZeroToHeroZBS.Controllers
     {
         private readonly IKitapRepository _kitapRepository;
         private readonly IKitapTuruRepository _kitapTuruRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;   
 
-        public KitapController(IKitapRepository kitapRepository, IKitapTuruRepository kitapTuruRepository)
+        public KitapController(IKitapRepository kitapRepository, IKitapTuruRepository kitapTuruRepository, IWebHostEnvironment webHostEnvironment)
         {
             _kitapRepository = kitapRepository;
             _kitapTuruRepository = kitapTuruRepository;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -56,6 +58,15 @@ namespace ZeroToHeroZBS.Controllers
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string kitapPath= Path.Combine(wwwRootPath, @"img");
+
+                using (var fileStream = new FileStream(Path.Combine(kitapPath, file.FileName), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+            kitap.ResimUrl = @"\img\" + file.FileName;
+
                 _kitapRepository.Ekle(kitap);
                 _kitapRepository.Kaydet();
                 TempData["basarili"] = "Yeni Kitap Başarıyla Oluşturuldu.";
