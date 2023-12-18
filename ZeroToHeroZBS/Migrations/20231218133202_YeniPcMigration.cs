@@ -5,7 +5,7 @@
 namespace ZeroToHeroZBS.Migrations
 {
     /// <inheritdoc />
-    public partial class ValidateNeverSolution : Migration
+    public partial class YeniPcMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

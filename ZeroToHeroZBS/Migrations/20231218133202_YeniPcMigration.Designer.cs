@@ -11,8 +11,8 @@ using ZeroToHeroZBS.Utility;
 namespace ZeroToHeroZBS.Migrations
 {
     [DbContext(typeof(UygulamaDbContext))]
-    [Migration("20231217113748_ValidateNeverSolution")]
-    partial class ValidateNeverSolution
+    [Migration("20231218133202_YeniPcMigration")]
+    partial class YeniPcMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

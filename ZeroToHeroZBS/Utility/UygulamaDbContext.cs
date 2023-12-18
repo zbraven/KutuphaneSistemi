@@ -12,6 +12,7 @@ namespace ZeroToHeroZBS.Utility
 
         public DbSet<KitapTuru> KitapTurleri => Set<KitapTuru>();
         public DbSet<Kitap> Kitaplar => Set<Kitap>();
+        public DbSet<Kiralama> Kiralamalar => Set<Kiralama>();
 
     }
 }
