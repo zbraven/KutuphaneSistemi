@@ -11,8 +11,8 @@ using ZeroToHeroZBS.Utility;
 namespace ZeroToHeroZBS.Migrations
 {
     [DbContext(typeof(UygulamaDbContext))]
-    [Migration("20231218133202_YeniPcMigration")]
-    partial class YeniPcMigration
+    [Migration("20231219111719_EksikGiderme")]
+    partial class EksikGiderme
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,27 @@ namespace ZeroToHeroZBS.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ZeroToHeroZBS.Models.Kiralama", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("KitapId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OgrenciId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KitapId");
+
+                    b.ToTable("Kiralamalar");
+                });
 
             modelBuilder.Entity("ZeroToHeroZBS.Models.Kitap", b =>
                 {
@@ -77,6 +98,17 @@ namespace ZeroToHeroZBS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("KitapTurleri");
+                });
+
+            modelBuilder.Entity("ZeroToHeroZBS.Models.Kiralama", b =>
+                {
+                    b.HasOne("ZeroToHeroZBS.Models.Kitap", "Kitap")
+                        .WithMany()
+                        .HasForeignKey("KitapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Kitap");
                 });
 
             modelBuilder.Entity("ZeroToHeroZBS.Models.Kitap", b =>

@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using ZeroToHeroZBS.Models;
 
 namespace ZeroToHeroZBS.Utility
 {
-    public class UygulamaDbContext:DbContext
+    public class UygulamaDbContext:IdentityDbContext
     {
         public UygulamaDbContext(DbContextOptions<UygulamaDbContext> options):base(options)
         {

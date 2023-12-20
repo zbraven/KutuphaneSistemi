@@ -11,8 +11,8 @@ using ZeroToHeroZBS.Utility;
 namespace ZeroToHeroZBS.Migrations
 {
     [DbContext(typeof(UygulamaDbContext))]
-    [Migration("20231218153952_KiralamaEklendi")]
-    partial class KiralamaEklendi
+    [Migration("20231219075123_YeniPcGuncelDB")]
+    partial class YeniPcGuncelDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
