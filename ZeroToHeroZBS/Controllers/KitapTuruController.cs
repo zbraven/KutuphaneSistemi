@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZeroToHeroZBS.Models;
 using ZeroToHeroZBS.Utility;
 
 namespace ZeroToHeroZBS.Controllers
 {
+    [Authorize(Roles = UserRoles.Role_Admnin)]
+
     public class KitapTuruController : Controller
     {
         private readonly IKitapTuruRepository _kitapTuruRepository;
