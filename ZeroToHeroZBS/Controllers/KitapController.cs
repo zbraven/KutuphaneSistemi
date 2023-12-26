@@ -6,7 +6,6 @@ using ZeroToHeroZBS.Utility;
 
 namespace ZeroToHeroZBS.Controllers
 {
-    [Authorize(Roles = UserRoles.Role_Admnin)]
     public class KitapController : Controller
     {
         private readonly IKitapRepository _kitapRepository;
@@ -20,12 +19,14 @@ namespace ZeroToHeroZBS.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [Authorize(Roles = "Admin,Ogrenci")]
         public IActionResult Index()
         {
-           // List<Kitap> objKitapList = _kitapRepository.GetAll().ToList();
-            List<Kitap> objKitapList = _kitapRepository.GetAll(includeProps:"KitapTuru").ToList();
+            List<Kitap> objKitapList = _kitapRepository.GetAll(includeProps: "KitapTuru").ToList();
             return View(objKitapList);
         }
+
+        [Authorize(Roles = UserRoles.Role_Admnin)]
 
         public IActionResult EkleGuncelle(int? id)
         {
@@ -56,7 +57,11 @@ namespace ZeroToHeroZBS.Controllers
             }
         }
 
+
+
         [HttpPost]
+        [Authorize(Roles = UserRoles.Role_Admnin)]
+
         public IActionResult EkleGuncelle(Kitap kitap, IFormFile? file)
         {
             if (ModelState.IsValid)
@@ -94,38 +99,7 @@ namespace ZeroToHeroZBS.Controllers
 
 
 
-
-
-        /* 
-         public IActionResult Guncelle(int? id)
-         {
-             if (id == null || id == 0)
-             {
-                 return NotFound();
-
-             }
-             Kitap? kitapVt = _kitapRepository.Get(u => u.Id == id);
-             if (kitapVt == null)
-             {
-                 return NotFound();
-             }
-             return View(kitapVt);
-         }
-
-         [HttpPost]
-         public IActionResult Guncelle(Kitap kitap)
-         {
-             if (ModelState.IsValid)
-             {
-                 _kitapRepository.Guncelle(kitap);
-                 _kitapRepository.Kaydet();
-                 TempData["basarili"] = "Yeni Kitap Başarıyla Güncellendi.";
-                 return RedirectToAction("Index", "Kitap");
-
-             }
-             return View();
-         }
-        */
+        [Authorize(Roles = UserRoles.Role_Admnin)]
 
         public IActionResult Sil(int? id)
         {
@@ -143,6 +117,8 @@ namespace ZeroToHeroZBS.Controllers
         }
 
         [HttpPost, ActionName("Sil")]
+        [Authorize(Roles = UserRoles.Role_Admnin)]
+
         public IActionResult SilPOST(int? id)
         {
             Kitap? kitap = _kitapRepository.Get(u => u.Id == id);

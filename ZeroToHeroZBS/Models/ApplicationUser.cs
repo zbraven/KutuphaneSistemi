@@ -9,6 +9,6 @@ namespace ZeroToHeroZBS.Models
         public int OgrenciNo { get; set; }
         public string? Adres { get; set; }
         public string? Fakulte { get; set; }
-        public string? Bolum { get; set; }
+        public  string? Bolum { get; set; }
     }
 }

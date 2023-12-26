@@ -1,4 +1,5 @@
-﻿@model List<Kitap>
+﻿@using ZeroToHeroZBS.Utility
+@model List<Kitap>
 
 @if (TempData["basarili"] != null)
 {
@@ -33,17 +34,28 @@
                     <td>@kitap.Yazar</td>
                     <td>@kitap.Fiyat</td>
                     <td>@kitap.KitapTuru.Ad</td>
-                    <td><a asp-controller="Kitap" asp-action="EkleGuncelle" asp-route-id="@kitap.Id" type="button" class="btn btn-success" style="width:200px">Güncelle</a> </td>
-                    <td><a asp-controller="Kitap" asp-action="Sil" asp-route-id="@kitap.Id" type="button" class="btn btn-danger" style="width:200px">Sil</a> </td>
+
+                    @if (User.IsInRole(UserRoles.Role_Admnin))
+                    {
+                        <td><a asp-controller="Kitap" asp-action="EkleGuncelle" asp-route-id="@kitap.Id" type="button" class="btn btn-success" style="width:200px">Güncelle</a> </td>
+                        <td><a asp-controller="Kitap" asp-action="Sil" asp-route-id="@kitap.Id" type="button" class="btn btn-danger" style="width:200px">Sil</a> </td>
+
+
+                    }
+
                 </tr>
             }
         </tbody>
 
     </table>
-    <div class="row pt-3 pb-2">
-        <div>
-            <a asp-controller="Kitap" asp-action="EkleGuncelle" class="btn btn-lg btn-primary" type="button">Yeni Kitap Ekle</a>
-        </div>
-    </div>
 
+     @if (User.IsInRole(UserRoles.Role_Admnin))
+    {
+        <div class="row pt-3 pb-2">
+            <div>
+                <a asp-controller="Kitap" asp-action="EkleGuncelle" class="btn btn-lg btn-primary" type="button">Yeni Kitap Ekle</a>
+            </div>
+        </div>
+    
+    }
 </div>
